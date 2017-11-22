@@ -1,0 +1,9 @@
+{
+  "name": "lit-html-example",
+  "version": "0.0.1",
+  "description": "this is example of lit-html.",
+  "main": "index.js",
+  "repository": "https://github.com/takahiro-saeki/lit-html-example.git",
+  "author": "Saeki, Takahiro <ts-takahiro.saeki@rakuten.com>",
+  "license": "MIT"
+}
