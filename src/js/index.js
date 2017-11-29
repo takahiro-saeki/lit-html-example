@@ -1,36 +1,23 @@
 import 'todomvc-app-css';
-import {html, render} from '../../node_modules/lit-html/lit-html.js';
-import { repeat } from '../../node_modules/lit-html/lib/repeat.js';
-import App from './containers/App';
-import mock from './mock/mock';
+import { render } from '@lit/lit-extended.js';
+import { repeat } from '@lit/repeat.js';
+import App from 'containers/App';
+import mock from 'mock/mock';
 import './style';
-/*
-const todo = items => {
-  return html`
-    <h1>My Todos</h1>
-    <ul>
-      ${repeat(
-        items,
-        item => item.id,
-        item => html`
-          <li class="${item.done ? 'done' : ''}">${item.value}</li>
-        `
-      )}
-    </ul>
-  `;
-};
 
-const someTodos = [
-  { id: 1, value: 'Mop the floor', done: false },
-  { id: 2, value: 'Prepare fancy salad', done: true },
-  { id: 3, value: 'Get a funky haircut', done: false }
-];
+export default class Todo extends HTMLElement {
+  static get observedAttributes() {
+    return ['sort', 'update'];
+  }
+  
+  attributeChangedCallback(name, oldValue, newValue) {
+    
+  }
+  
+  connectedCallback() {
+    const el = document.querySelector('custom-todo')
+    render(App(mock), el);
+  }
+}
 
-const el = document.querySelector('#container');
-
-render(todo(someTodos), el);
-*/
-
-//document
-//https://alligator.io/web-components/lit-html/
-//render(App, document.querySelector('.todoapp'))
+customElements.define('custom-todo', Todo);
