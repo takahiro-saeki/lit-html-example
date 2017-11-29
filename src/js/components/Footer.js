@@ -1,12 +1,19 @@
 import { html } from 'lit-html';
+import count from 'domain/count';
 
-const Footer = () => html`
+const Footer = (item) => html`
   <footer class="footer">
-    <span class="todo-count">3 items left</span>
+    <span class="todo-count">${count(item)} items left</span>
     <div class="filters">
-      <a href="#/" class="selected">All</a>
-      <a href="#/active">Active</a>
-      <a href="#/completed">Completed</a>
+      <li>
+        <a href="#/" class="selected">All</a>
+      </li>
+      <li>
+        <a href="#/active">Active</a>
+      </li>
+      <li>
+        <a href="#/completed">Completed</a>
+      </li>
     </div>
     <button class="clear-completed" style="display: none;">Clear completed</button>
   </footer>

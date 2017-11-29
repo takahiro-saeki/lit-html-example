@@ -7,9 +7,9 @@ const MainField = items => html`
     <input class="toggle-all" type="checkbox">
     <label for="toggle-all">Mark all as complete</label>
     <ul class="todo-list">
-      ${items.map(item => TodoItem(item.title, item.id))}
+      ${items.map(item => TodoItem(item))}
     </ul>
-    ${Footer()}
+    ${Footer(items)}
   </section>
 `
 

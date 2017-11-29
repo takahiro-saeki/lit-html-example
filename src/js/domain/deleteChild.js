@@ -1,7 +1,7 @@
-const deleteChild = (e) => {
+const deleteChild = (event) => {
   const parent = document.querySelector('custom-todo')
-  console.log(parent)
-  parent.setAttribute('delete', e.target.parentNode.getAttribute('id'))
+  const id = event.target.parentNode.getAttribute('id')
+  parent.setAttribute('delete', id)
 }
 
 export default deleteChild;
