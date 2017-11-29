@@ -1,5 +1,4 @@
 import { html } from 'lit-html';
-import { repeat } from '@lit/repeat.js';
 import Footer from 'components/Footer';
 import TodoItem from 'components/TodoItem';
 
@@ -8,11 +7,7 @@ const MainField = items => html`
     <input class="toggle-all" type="checkbox">
     <label for="toggle-all">Mark all as complete</label>
     <ul class="todo-list">
-      ${repeat(
-        items, 
-        item => item.id,
-        item => TodoItem(item.title, item.id)
-      )}
+      ${items.map(item => TodoItem(item.title, item.id))}
     </ul>
     ${Footer()}
   </section>
