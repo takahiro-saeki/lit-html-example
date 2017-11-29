@@ -10,13 +10,18 @@ export default class Todo extends HTMLElement {
     return ['sort', 'update'];
   }
   
+  constructor() {
+    super()
+    this.state = mock;
+  }
+  
   attributeChangedCallback(name, oldValue, newValue) {
     
   }
   
   connectedCallback() {
     const el = document.querySelector('custom-todo')
-    render(App(mock), el);
+    render(App(this.state), el);
   }
 }
 
