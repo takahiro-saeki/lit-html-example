@@ -31,12 +31,8 @@ export default class Todo extends HTMLElement {
       this.generate(this.state)
     }
     if(name === 'filter') {
-      switch(newValue) {
-        case 'all': return {}
-        case 'active': return {}
-        case 'completed': return {}
-        default: return {}
-      }
+      this.flag = newValue
+      this.generate(this.state)
     }
   }
 
@@ -51,7 +47,14 @@ export default class Todo extends HTMLElement {
     this.setAttribute('update', '')
   }
   
-  generate(item) {
+  generate(item, flag) {
+    /*
+    const optimize = switch(flag) {
+      case 'all': {
+        
+      }
+    }
+    */
     const el = document.querySelector('custom-todo')
     render(App(item), el);
   }
