@@ -5,14 +5,15 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server",
-    "build": "npm run clean && cross-env NODE_ENV=production webpack --progress",
-    "tree": "tree -I node_modules",
+    "build": "npm run clean && cross-env NODE_ENV=production webpack --progress && npm run yo",
+    "tree": "tree -I node_modules && npm run yo",
     "clean": "rimraf 'dist/*.{js,json,svg,png,css,woff,woff2,ttf,eot,html}'",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "lint": "eslint src/js/**/*",
-    "lint-fix": "eslint src/js/**/*.js src/js/**/* --fix --quiet"
+    "lint-fix": "eslint src/js/**/*.js src/js/**/* --fix --quiet",
+    "yo": "node build/finish.js"
   },
   "repository": "https://github.com/takahiro-saeki/lit-html-example.git",
   "author": "Saeki, Takahiro <ts-takahiro.saeki@rakuten.com>",
@@ -61,7 +62,8 @@
     "webpack": "3.8.1",
     "webpack-dashboard": "^1.0.2",
     "webpack-dev-server": "^2.9.4",
-    "webpack-merge": "^4.1.1"
+    "webpack-merge": "^4.1.1",
+    "yosay": "^2.0.1"
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",

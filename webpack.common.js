@@ -34,11 +34,11 @@ module.exports = {
     ]
   },
   plugins: [
+    new ExtractTextPlugin('styles.css'),
     new HtmlWebpackPlugin({
       title: 'Custom Elements Example 1',
       template: path.join(__dirname, './src/index.ejs')
     }),
-    new ExtractTextPlugin('styles.css'),
     new webpack.HotModuleReplacementPlugin()
   ]
 };
