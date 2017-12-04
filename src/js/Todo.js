@@ -1,6 +1,7 @@
 import 'todomvc-app-css';
 import uuid from 'uuid';
 import { render } from '@lit/lit-extended.js';
+import { upperFirst, isEmpty } from 'lodash';
 import App from 'containers/App';
 import mock from 'mock/mock';
 import defaultFilter from 'mock/defaultFilter';
@@ -9,7 +10,7 @@ import './style';
 
 export default class Todo extends HTMLElement {
   static get observedAttributes() {
-    return ['update', 'delete', 'change', 'filter', 'all-check'];
+    return ['update', 'delete', 'change', 'filter', 'all-check', 'init'];
   }
   
   attributeChangedCallback(name, oldValue, newValue) {
@@ -24,16 +25,19 @@ export default class Todo extends HTMLElement {
       this.state.data = newState;
       const filterData = this.filter(this.state.currentFilter)
       this.generate(filterData, this.state.filter)
+      this.store()
     }
     if(name === 'update') {
       const filterData = this.filter(this.state.currentFilter)
       this.generate(filterData, this.state.filter)
+      this.store()
     }
     if(name === 'delete') {
       const newState = this.state.data.filter(item => item.id !== newValue);
       this.state.data = newState;
       const filterData = this.filter(this.state.currentFilter)
       this.generate(filterData, this.state.filter)
+      this.store()
     }
     if(name === 'filter') {
       const optimize = this.state.filter.map(item => {
@@ -57,6 +61,37 @@ export default class Todo extends HTMLElement {
       const filterData = this.filter(this.state.currentFilter)
       this.generate(filterData, this.state.filter)
     }
+    if(name === 'init') {
+      if(this.read().length === 0) {
+        const optimize = this.state.filter.map(item => {
+          const param = {
+            type: item.type,
+            isSelected: item.type === newValue ? true : false
+          }
+          return param
+        })
+        this.state.filter = optimize
+        this.state.currentFilter = newValue
+        const filterData = this.filter(this.state.currentFilter)
+        this.generate(filterData, this.state.filter)
+        return;
+      }
+      this.state.data = this.read()
+      const optimize = this.state.filter.map(item => {
+        const param = {
+          type: item.type,
+          isSelected: item.type === newValue ? true : false
+        }
+        return param
+      })
+      this.state.filter = optimize
+      this.state.currentFilter = newValue
+      if(isEmpty(newValue)) {
+        this.state.currentFilter = 'All'
+      }
+      const filterData = this.filter(this.state.currentFilter)
+      this.generate(filterData, this.state.filter)
+    }
   }
 
   constructor() {
@@ -77,13 +112,6 @@ export default class Todo extends HTMLElement {
   generate(data, filter) {
     const el = document.querySelector('custom-todo')
     render(App(data, filter), el);
-  }
-  
-  initFilter() {
-    /*
-    const hash = window.location.hash.split('/')[1]
-    return hash;
-    */
   }
   
   filter(flag) {
@@ -111,8 +139,18 @@ export default class Todo extends HTMLElement {
     this.setAttribute('update', '')
   }
   
+  store() {
+    sessionStorage.setItem('data', JSON.stringify(this.state.data));
+  }
+  
+  read() {
+    const data = JSON.parse(sessionStorage.getItem('data'))
+    return data
+  }
+  
   connectedCallback() {
-    this.generate(this.state.data, this.state.filter)
+    const filterFlag = upperFirst(location.hash.split('/')[1])
+    this.setAttribute('init', filterFlag)
     const input = document.querySelector('[inputField]');
     input.addEventListener('keypress', e => {
       if(e.keyCode === 13) {
