@@ -7,8 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = Merge(common, {
   output: {
     filename: '[name].bundle.min.js',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/'
+    path: path.resolve(__dirname, 'dist')
   },
   plugins: [
     new webpack.DefinePlugin({
