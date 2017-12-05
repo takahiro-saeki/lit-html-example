@@ -31,6 +31,6 @@ const mock = [
     title: 'sample6',
     isChecked: false
   }
-]
+];
 
 export default mock;

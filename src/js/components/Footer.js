@@ -12,7 +12,7 @@ import FooterItem from './FooterItem';
 <li>
   <a href="#/completed">Completed</a>
 </li>
-  
+
 */
 
 const Footer = (item, filter = []) => html`
@@ -23,6 +23,6 @@ const Footer = (item, filter = []) => html`
     </div>
     <button class="clear-completed" style="display: none;">Clear completed</button>
   </footer>
-`
+`;
 
 export default Footer;

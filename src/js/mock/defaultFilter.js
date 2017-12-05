@@ -11,6 +11,6 @@ const defaultFilter = [
     type: 'Completed',
     isSelected: false
   }
-]
+];
 
 export default defaultFilter;
