@@ -7,7 +7,7 @@
     "start": "cross-env NODE_ENV=development webpack-dev-server",
     "build": "npm run clean && cross-env NODE_ENV=production webpack --progress && npm run yo",
     "tree": "tree -I node_modules && npm run yo",
-    "clean": "rimraf 'dist/*.{js,json,svg,png,css,woff,woff2,ttf,eot,html}'",
+    "clean": "rimraf 'dist/*.{js,json,svg,png,css,woff,woff2,ttf,eot,html,map}'",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
