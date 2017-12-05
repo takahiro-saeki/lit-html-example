@@ -39,95 +39,115 @@ export default class Todo extends HTMLElement {
   }
 
   change(newValue) {
-    const newState = this.state.data.map(item => {
+    const { data, currentFilter, filter } = this.state;
+    const newState = data.map(item => {
       if (item.id === newValue) {
-        const merge = Object.assign({}, item, { isChecked: !item.isChecked });
+        const merge = Object.assign({}, item, {
+          isChecked: !item.isChecked
+        });
         return merge;
       }
       return item;
     });
-    this.state.data = newState;
-    const filterData = this.filter(this.state.currentFilter);
-    this.generate(filterData, this.state.filter);
+    this.setState({ data: newState });
+    const filterData = this.filter(currentFilter);
+    this.generate(filterData, filter);
     this.store();
   }
 
   update() {
-    const filterData = this.filter(this.state.currentFilter);
-    this.generate(filterData, this.state.filter);
+    const { currentFilter, filter } = this.state;
+    const filterData = this.filter(currentFilter);
+    this.generate(filterData, filter);
     this.store();
   }
 
   delete(newValue) {
-    const newState = this.state.data.filter(item => item.id !== newValue);
-    this.state.data = newState;
-    const filterData = this.filter(this.state.currentFilter);
-    this.generate(filterData, this.state.filter);
+    const { data, currentFilter, filter } = this.state;
+    const newState = data.filter(item => item.id !== newValue);
+    this.setState({data: newState})
+    const filterData = this.filter(currentFilter);
+    this.generate(filterData, filter);
     this.store();
   }
 
   filterState(newValue) {
-    const optimize = this.state.filter.map(item => {
+    const { currentFilter, filter } = this.state;
+    const optimize = filter.map(item => {
       const param = {
         type: item.type,
         isSelected: item.type === newValue ? true : false
       };
       return param;
     });
-    this.state.filter = optimize;
-    this.state.currentFilter = newValue;
-    const filterData = this.filter(this.state.currentFilter);
-    this.generate(filterData, this.state.filter);
+    const state = {
+      filter: optimize,
+      currentFilter: newValue
+    };
+    this.setState(state);
+    const filterData = this.filter(currentFilter);
+    this.generate(filterData, filter);
   }
 
   allCheckState() {
-    const optimize = this.state.data.map(item => {
+    const { data, currentFilter, filter } = this.state;
+    const optimize = data.map(item => {
       const merge = Object.assign({}, item, { isChecked: true });
       return merge;
     });
-    this.state.data = optimize;
-    const filterData = this.filter(this.state.currentFilter);
-    this.generate(filterData, this.state.filter);
+    this.setState({ data: optimize });
+    const filterData = this.filter(currentFilter);
+    this.generate(filterData, filter);
+    this.store();
   }
 
   init(newValue) {
+    const { data, currentFilter, filter } = this.state;
     if (!this.read()) {
-      const optimize = this.state.filter.map(item => {
+      const optimize = filter.map(item => {
         const param = {
           type: item.type,
           isSelected: item.type === newValue ? true : false
         };
         return param;
       });
-      this.state.filter = optimize;
-      this.state.currentFilter = newValue;
-      const filterData = this.filter(this.state.currentFilter);
-      this.generate(filterData, this.state.filter);
+      const state = {
+        filter: optimize,
+        currentFilter: newValue
+      };
+      this.setState(state);
+      const filterData = this.filter(currentFilter);
+      this.generate(filterData, filter);
       return;
     }
-    this.state.data = this.read();
-    const optimize = this.state.filter.map(item => {
+    this.setState({ data: this.read() });
+    let flag = newValue
+    if(!flag) {
+      flag = 'All'
+    }
+    const optimize = filter.map(item => {
       const param = {
         type: item.type,
-        isSelected: item.type === newValue ? true : false
+        isSelected: item.type === flag ? true : false
       };
       return param;
     });
-    this.state.filter = optimize;
-    this.state.currentFilter = newValue;
+    const state = {
+      filter: optimize,
+      currentFilter: newValue
+    };
+    this.setState(state);
     if (isEmpty(newValue)) {
-      this.state.currentFilter = 'All';
+      this.setState({ currentFilter: 'All' });
     }
-    const filterData = this.filter(this.state.currentFilter);
-    this.generate(filterData, this.state.filter);
+    const filterData = this.filter(currentFilter);
+    this.generate(filterData, filter);
   }
 
-  setState(param) {
-    const paramState = this.state.data.filter(item => item.id !== param);
-    this.state.data = paramState;
-    this.setAttribute('update', '');
+  setState(option = {}) {
+    this.state = Object.assign({}, this.state, option);
   }
-
+  
   generate(data, filter) {
     const el = document.querySelector('custom-todo');
     render(App(data, filter), el);

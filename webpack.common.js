@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -26,19 +25,18 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader'
-        })
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: false,
+              importLoaders: 1,
+              localIdentName: '[name]__[local]___[hash:base64:5]'
+            }
+          }
+        ]
       }
     ]
-  },
-  plugins: [
-    new ExtractTextPlugin('styles.css'),
-    new HtmlWebpackPlugin({
-      title: 'Custom Elements Example 1',
-      template: path.join(__dirname, './src/index.ejs')
-    }),
-    new webpack.HotModuleReplacementPlugin()
-  ]
+  }
 };
