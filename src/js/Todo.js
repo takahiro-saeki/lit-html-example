@@ -62,7 +62,7 @@ export default class Todo extends HTMLElement {
 
   delete(newValue) {
     const newState = this.state.data.filter(item => item.id !== newValue);
-    this.setState({data: newState})
+    this.setState({ data: newState });
     const filterData = this.filter(this.state.currentFilter);
     this.generate(filterData, this.state.filter);
     this.store();
@@ -115,9 +115,9 @@ export default class Todo extends HTMLElement {
       return;
     }
     this.setState({ data: this.read() });
-    let flag = newValue
-    if(!flag) {
-      flag = 'All'
+    let flag = newValue;
+    if (!flag) {
+      flag = 'All';
     }
     const optimize = this.state.filter.map(item => {
       const param = {
@@ -141,7 +141,7 @@ export default class Todo extends HTMLElement {
   setState(option = {}) {
     this.state = Object.assign({}, this.state, option);
   }
-  
+
   generate(data, filter) {
     const el = document.querySelector('custom-todo');
     render(App(data, filter), el);
