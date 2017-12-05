@@ -39,8 +39,7 @@ export default class Todo extends HTMLElement {
   }
 
   change(newValue) {
-    const { data, currentFilter, filter } = this.state;
-    const newState = data.map(item => {
+    const newState = this.state.data.map(item => {
       if (item.id === newValue) {
         const merge = Object.assign({}, item, {
           isChecked: !item.isChecked
@@ -50,30 +49,27 @@ export default class Todo extends HTMLElement {
       return item;
     });
     this.setState({ data: newState });
-    const filterData = this.filter(currentFilter);
-    this.generate(filterData, filter);
+    const filterData = this.filter(this.state.currentFilter);
+    this.generate(filterData, this.state.filter);
     this.store();
   }
 
   update() {
-    const { currentFilter, filter } = this.state;
-    const filterData = this.filter(currentFilter);
-    this.generate(filterData, filter);
+    const filterData = this.filter(this.state.currentFilter);
+    this.generate(filterData, this.state.filter);
     this.store();
   }
 
   delete(newValue) {
-    const { data, currentFilter, filter } = this.state;
-    const newState = data.filter(item => item.id !== newValue);
+    const newState = this.state.data.filter(item => item.id !== newValue);
     this.setState({data: newState})
-    const filterData = this.filter(currentFilter);
-    this.generate(filterData, filter);
+    const filterData = this.filter(this.state.currentFilter);
+    this.generate(filterData, this.state.filter);
     this.store();
   }
 
   filterState(newValue) {
-    const { currentFilter, filter } = this.state;
-    const optimize = filter.map(item => {
+    const optimize = this.state.filter.map(item => {
       const param = {
         type: item.type,
         isSelected: item.type === newValue ? true : false
@@ -85,26 +81,24 @@ export default class Todo extends HTMLElement {
       currentFilter: newValue
     };
     this.setState(state);
-    const filterData = this.filter(currentFilter);
-    this.generate(filterData, filter);
+    const filterData = this.filter(this.state.currentFilter);
+    this.generate(filterData, this.state.filter);
   }
 
   allCheckState() {
-    const { data, currentFilter, filter } = this.state;
-    const optimize = data.map(item => {
+    const optimize = this.state.data.map(item => {
       const merge = Object.assign({}, item, { isChecked: true });
       return merge;
     });
     this.setState({ data: optimize });
-    const filterData = this.filter(currentFilter);
-    this.generate(filterData, filter);
+    const filterData = this.filter(this.state.currentFilter);
+    this.generate(filterData, this.state.filter);
     this.store();
   }
 
   init(newValue) {
-    const { data, currentFilter, filter } = this.state;
     if (!this.read()) {
-      const optimize = filter.map(item => {
+      const optimize = this.state.filter.map(item => {
         const param = {
           type: item.type,
           isSelected: item.type === newValue ? true : false
@@ -116,8 +110,8 @@ export default class Todo extends HTMLElement {
         currentFilter: newValue
       };
       this.setState(state);
-      const filterData = this.filter(currentFilter);
-      this.generate(filterData, filter);
+      const filterData = this.filter(this.state.currentFilter);
+      this.generate(filterData, this.state.filter);
       return;
     }
     this.setState({ data: this.read() });
@@ -125,7 +119,7 @@ export default class Todo extends HTMLElement {
     if(!flag) {
       flag = 'All'
     }
-    const optimize = filter.map(item => {
+    const optimize = this.state.filter.map(item => {
       const param = {
         type: item.type,
         isSelected: item.type === flag ? true : false
@@ -140,8 +134,8 @@ export default class Todo extends HTMLElement {
     if (isEmpty(newValue)) {
       this.setState({ currentFilter: 'All' });
     }
-    const filterData = this.filter(currentFilter);
-    this.generate(filterData, filter);
+    const filterData = this.filter(this.state.currentFilter);
+    this.generate(filterData, this.state.filter);
   }
 
   setState(option = {}) {
