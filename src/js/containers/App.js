@@ -3,7 +3,7 @@ import Header from 'components/Header';
 import MainField from 'components/MainField';
 
 const App = (data, filter) => html`
-  ${Header('title', 'placeholder')}
+  ${Header('lit-html/ example', 'placeholder')}
   ${MainField(data, filter)}
 `;
 

@@ -15,6 +15,10 @@ module.exports = Merge(common, {
       'process.env': {
         NODE_ENV: '"production"'
       }
-    })
+    }),
+    new HtmlWebpackPlugin({
+      title: 'lit-html/ example',
+      template: path.join(__dirname, './src/index.ejs')
+    }),
   ]
 });
